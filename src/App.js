@@ -7,7 +7,7 @@ function App() {
   const [datas, setdatas] = useState("");
   const [alertgagal, setalertgagal] = useState("");
   const [alertsukses, setalertsukses] = useState("");
-  // const [Loading, setLoading] = useState(false)
+  const [Loading, setLoading] = useState(false)
   const baseurl = 'https://incentivized-testnet.seinetwork.io/check-eligibility?seiAddress=';
 
   const check = async () => {
@@ -16,11 +16,11 @@ function App() {
       const response = await axios.get(`${baseurl}${data}`);
       console.log(response.data);
       setdatas(response.data);
-      // setalertsukses("Api Aktif");
+      setalertsukses("Api Aktif");
       setalertgagal("");
       setLoading(false)
     } catch (error) {
-      // setalertgagal("Api Dari Sei Sedang dimatikan / Down");
+      setalertgagal("Api Dari Sei Sedang dimatikan / Down");
       setalertsukses("");
       setLoading(false)
     }
@@ -38,9 +38,7 @@ function App() {
     check()
   }, [data])
 
-  if (!alertgagal) {
-    return alertsukses
-  }
+
 
 
 
@@ -53,7 +51,12 @@ function App() {
       <p>Address Kamu : <span><h5>{data}</h5></span></p>
       <h2>EigibleAmount : {getEligibleAmount()} $SEI</h2>
       <h2>Reason : {datas.reason === undefined ? "" : datas.reason}</h2>
-     
+      <h4>
+        <span style={{ color: 'black' }}>Status API : </span>
+        <span style={{ color: alertgagal ? 'red' : 'green' }}>
+          {alertgagal || alertsukses}
+        </span>
+      </h4>
 
     </>
   );
